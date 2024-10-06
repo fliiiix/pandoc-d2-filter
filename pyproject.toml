@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pandoc-d2-filter"
+authors = [
+    {name = "Fliiiix", email = "hi@l33t.name"},
+]
+description = "Pandoc filter for D2 code blocks"
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ["d2", "pandoc-filter", "pandoc"]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "pandocfilters",
+]
+dynamic = ["version"]
+
+[project.scripts]
+pandoc-d2 = "pandoc_d2_filter:main"
+
+[tool.setuptools_scm]

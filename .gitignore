@@ -1,0 +1,5 @@
+.env/
+__pycache__/
+d2-images/
+pandoc_d2_filter.egg-info/
+*.pdf
