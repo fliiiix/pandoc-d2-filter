@@ -5,3 +5,8 @@ https://github.com/ram02z/d2-filter
 x -> y
 ```
 ````
+
+## Usage
+
+The d2 binary is either part of the `$PATH`
+or can be configured via `D2_BIN` environment variable.
