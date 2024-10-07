@@ -7,6 +7,8 @@ import subprocess
 from pandocfilters import toJSONFilter, Para, Image
 from pandocfilters import get_filename4code, get_caption, get_extension
 
+D2_BIN = os.environ.get("D2_BIN", "d2")
+
 def d2(key, value, format, meta):
     if key == "CodeBlock":
         [[ident, classes, keyvals], code] = value
@@ -26,7 +28,7 @@ def d2(key, value, format, meta):
             with open(src, "wb") as f:
                 f.write(txt)
 
-            subprocess.check_call(["d2"] + [src, dest])
+            subprocess.check_call([D2_BIN, src, dest])
             sys.stderr.write("Created image " + dest + "\n")
 
             return Para([Image([ident, [], keyvals], caption, [dest, typef])])
