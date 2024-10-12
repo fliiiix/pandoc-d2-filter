@@ -35,6 +35,8 @@ def extract_theme_id(theme: str) -> int:
     try:
         # Value is just theme id
         theme = int(theme)
+        if not theme in d2_theme.values():
+            sys.stderr.write("Theme {theme} not found make sure its a valid theme with `d2 themes`! Using default from d2.")
     except ValueError:
         try:
             # Value is theme name
