@@ -26,3 +26,12 @@ def test_theme_number_diagram():
 
     assert len(extract_images(cmd.stdout)) == 1
     assert '["theme","1"]' in cmd.stdout
+
+
+def test_theme_name_diagram():
+    input_file = str(__TEST_BASE_DIR__ / "theme_name.md")
+    cmd = subprocess.run(["pandoc", "-t", "json", "--filter", "pandoc-d2", input_file], capture_output = True, text = True)
+    assert cmd.returncode == 0
+
+    assert len(extract_images(cmd.stdout)) == 1
+    assert '["theme","Grape soda"]' in cmd.stdout
