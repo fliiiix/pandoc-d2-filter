@@ -1,0 +1,48 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.13
+      - name: Setup and install tools
+        run: |
+          python -m pip install --upgrade ruff
+      - name: format check
+        run: python -m ruff format --check
+      - name: lint check
+        run: python -m ruff check
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.8, 3.13]
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Setup build and test environment
+        run: python -m pip install --upgrade pip build pytest pytest-mock
+      - name: Build package
+        run: python -m build
+      - name: Install package
+        run: python -m pip install --pre dist/pandoc_d2_filter-*.whl
+      - name: run unit tests
+        run: python -m pytest tests/test_unit.py
+      - name: install dependencies for integration tests
+        run: sudo apt update && sudo apt install -y pandoc && curl -fsSL https://d2lang.com/install.sh | sh -s --
+      - name: run d2 once
+        run: d2 init-playwright
+      - name: run integration tests
+        run: python -m pytest tests/test_integration.py
+

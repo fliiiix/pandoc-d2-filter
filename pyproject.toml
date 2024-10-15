@@ -24,6 +24,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: Implementation",
     "Programming Language :: Python :: Implementation :: CPython",
     "Topic :: Software Development :: Libraries :: Python Modules",
@@ -35,5 +36,10 @@ dynamic = ["version"]
 
 [project.scripts]
 pandoc-d2 = "pandoc_d2_filter:main"
+
+[tool.ruff]
+line-length = 120
+# Rule descriptions: https://docs.astral.sh/ruff/rules/
+lint.select = ["I", "E", "B", "F", "W", "N", "C4", "C90", "ARG", "PL", "RUF", "UP"]
 
 [tool.setuptools_scm]
