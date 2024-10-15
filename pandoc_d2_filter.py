@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 
 import os
-import sys
 import subprocess
+import sys
 
-from pandocfilters import toJSONFilter, Para, Image
-from pandocfilters import get_filename4code, get_value, get_caption, get_extension
+from pandocfilters import Image, Para, get_caption, get_filename4code, get_value, toJSONFilter
 
 D2_BIN = os.environ.get("D2_BIN", "d2")
 
@@ -31,12 +30,15 @@ d2_theme = {
     "Dark Flagship Terrastruct": 201,
 }
 
+
 def extract_theme_id(theme: str) -> int:
     try:
         # Value is just theme id
         theme = int(theme)
-        if not theme in d2_theme.values():
-            sys.stderr.write("Theme {theme} not found make sure its a valid theme with `d2 themes`! Using default from d2.")
+        if theme not in d2_theme.values():
+            sys.stderr.write(
+                "Theme {theme} not found make sure its a valid theme with `d2 themes`! Using default from d2."
+            )
     except ValueError:
         try:
             # Value is theme name
@@ -47,7 +49,7 @@ def extract_theme_id(theme: str) -> int:
     return 0
 
 
-def d2(key, value, format, meta):
+def d2(key, value, format, meta):  # noqa: ARG001
     if key == "CodeBlock":
         [[ident, classes, keyvals], code] = value
 
@@ -62,7 +64,7 @@ def d2(key, value, format, meta):
             src = filename + ".d2"
             dest = filename + "." + filetype
 
-            #sys.stderr.write(f"{keyvals=}")
+            # sys.stderr.write(f"{keyvals=}")
 
             txt = code.encode(sys.getfilesystemencoding())
             with open(src, "wb") as f:
@@ -72,6 +74,7 @@ def d2(key, value, format, meta):
             sys.stderr.write("Created image " + dest + "\n")
 
             return Para([Image([ident, [], keyvals], caption, [dest, typef])])
+
 
 def main():
     toJSONFilter(d2)
