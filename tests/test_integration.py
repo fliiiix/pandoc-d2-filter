@@ -74,3 +74,14 @@ def test_pdf():
 
     assert len(extract_images(cmd.stdout)) == 1
     assert '["format","pdf"]' in cmd.stdout
+
+
+def test_padding():
+    input_file = str(__TEST_BASE_DIR__ / "pad.md")
+    cmd = subprocess.run(
+        ["pandoc", "-t", "json", "--filter", "pandoc-d2", input_file], capture_output=True, text=True, check=False
+    )
+    assert cmd.returncode == 0
+
+    assert len(extract_images(cmd.stdout)) == 1
+    assert '["pad","0"]' in cmd.stdout
