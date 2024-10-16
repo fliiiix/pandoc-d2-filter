@@ -61,6 +61,8 @@ def d2(key, value, format, meta):  # noqa: ARG001
 
             theme = extract_theme_id(get_value(keyvals, "theme", 0)[0])
             padding = get_value(keyvals, "pad", 100)[0]
+            layout = get_value(keyvals, "layout", "dagre")[0]
+            sketch = get_value(keyvals, "sketch", "false")[0]
 
             src = filename + ".d2"
             dest = filename + "." + filetype
@@ -69,7 +71,9 @@ def d2(key, value, format, meta):  # noqa: ARG001
             with open(src, "wb") as f:
                 f.write(txt)
 
-            subprocess.check_call([D2_BIN, f"--theme={theme}", f"--pad={padding}", src, dest])
+            subprocess.check_call(
+                [D2_BIN, f"--theme={theme}", f"--layout={layout}", f"--pad={padding}", f"--sketch={sketch}", src, dest]
+            )
             sys.stderr.write("Created image " + dest + "\n")
 
             return Para([Image([ident, [], keyvals], caption, [dest, typef])])
