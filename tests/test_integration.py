@@ -85,3 +85,14 @@ def test_padding():
 
     assert len(extract_images(cmd.stdout)) == 1
     assert '["pad","0"]' in cmd.stdout
+
+
+def test_layout_elk():
+    input_file = str(__TEST_BASE_DIR__ / "elk.md")
+    cmd = subprocess.run(
+        ["pandoc", "-t", "json", "--filter", "pandoc-d2", input_file], capture_output=True, text=True, check=False
+    )
+    assert cmd.returncode == 0
+
+    assert len(extract_images(cmd.stdout)) == 1
+    assert '["layout","elk"]' in cmd.stdout
