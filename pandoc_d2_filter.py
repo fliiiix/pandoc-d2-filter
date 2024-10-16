@@ -57,14 +57,12 @@ def d2(key, value, format, meta):  # noqa: ARG001
             caption, typef, keyvals = get_caption(keyvals)
 
             filename = get_filename4code("d2", code)
-            filetype = "png"
+            filetype = get_value(keyvals, "format", "svg")[0]
 
             theme = extract_theme_id(get_value(keyvals, "theme", 0)[0])
 
             src = filename + ".d2"
             dest = filename + "." + filetype
-
-            # sys.stderr.write(f"{keyvals=}")
 
             txt = code.encode(sys.getfilesystemencoding())
             with open(src, "wb") as f:
